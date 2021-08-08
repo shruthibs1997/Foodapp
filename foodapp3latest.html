@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>latest page</title>
+    <link rel="stylesheet" href="foodappstyle.css" />
+</head>
+
+<body>
+    <div id="navdisplay"></div>
+    <div id="sbar"></div>
+    <div id="meal"></div>
+</body>
+
+</html>
+<script type="module">
+    import mynav from "./foodappnavbar.js"
+    console.log(mynav);
+    let div = document.getElementById('navdisplay');
+    div.innerHTML = mynav();
+</script>
+<script>
+    async function latest() {
+        let arr = ['banana', 'koshari', 'Clam chowder', 'Fish fofos', 'Jam Roly-Poly']
+        for (let i = 0; i < arr.length; i++) {
+            let res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${arr[i]}`)
+            let data = await res.json();
+            console.log(data.meals)
+            displaylatest(data.meals);
+        }
+    }
+    latest();
+
+    function displaylatest(el) {
+        let dis_div = document.getElementById('meal');
+        dis_div.setAttribute('class', 'meal')
+        let div = document.createElement('div');
+        let ndiv = document.createElement("h1");
+        ndiv.innerHTML = el[0].strMeal;
+        let imgdiv = document.createElement('img');
+        imgdiv.src = el[0].strMealThumb;
+        let discdiv = document.createElement("div");
+        discdiv.innerHTML = el[0].strTags;
+        div.append(imgdiv, ndiv, discdiv);
+        dis_div.append(div);
+    }
+
+
+</script>
+<script src="foodappsearch.js"></script>

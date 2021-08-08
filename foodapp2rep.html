@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>recipe page</title>
+    <link rel="stylesheet" href="./foodappstyle.css" />
+    <style>
+        .meal1 {
+            width: 32%;
+            margin: auto;
+            margin-top: 30px;
+        }
+
+        .meal1>div {
+            border: 2px solid gray;
+            border-radius: 10px;
+        }
+
+        .meal1>div>img {
+            width: 80%;
+            height: 320px;
+            margin-top: 20px;
+            margin-left: 10%;
+        }
+
+        .meal1>div>div {
+            font-family: Arial, Helvetica, sans-serif;
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+
+        .meal1>div>h1 {
+            font-family: Arial, Helvetica, sans-serif;
+            margin-left: 10%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="navdisplay"></div>
+    <div id="sbar"></div>
+    <div id="meal" class="meal1"></div>
+</body>
+
+</html>
+
+<script type="module">
+
+    import mynav from "./foodappnavbar.js"
+    console.log(mynav);
+    let div = document.getElementById('navdisplay');
+    div.innerHTML = mynav();
+
+
+</script>
+<script>
+    var i = random(4);
+
+    function random(num) {
+        return Math.floor(Math.random() * num);
+    }
+
+    async function repmeal() {
+        let arr = ['banana', 'koshari', 'Clam chowder', 'Fish fofos', 'Jam Roly-Poly']
+        let res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${arr[i]}`)
+        let data = await res.json();
+        console.log(data.meals)
+        displayrep(data.meals);
+    }
+
+    repmeal();
+    function displayrep(el) {
+        let dis_div = document.getElementById('meal');
+        let div = document.createElement('div');
+        let ndiv = document.createElement("h1");
+        ndiv.innerHTML = el[0].strMeal;
+        let imgdiv = document.createElement('img');
+        imgdiv.src = el[0].strMealThumb;
+        let discdiv = document.createElement("div");
+        discdiv.innerHTML = el[0].strInstructions;
+        div.append(imgdiv, ndiv, discdiv);
+        dis_div.append(div);
+    }
+</script>
+<script src="foodappsearch.js"></script>
